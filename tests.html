@@ -5,8 +5,28 @@
   <title>$limJS Litmus Tests</title>
 </head>
 <body>
-<ol><li>First</li><li>Second</li><li>Third</li></ol>
+<div id="delegate">
+  <ol class="items">
+    <li class="item first"><a class="link"><span class="span">First</span></a></li>
+    <li class="item second"><a class="link"><span class="span">Second</span></a></li>
+    <li class="item third"><a class="link"><span class="span">Third</span></a></li>
+  </ol>
+</div>
+<div id="single">
+  <a class="link"><p>Clicker</p></a>
+</div>
 
+<script type="text/javascript">
+function eventFire(el, etype){
+      if (el.fireEvent) {
+        (el.fireEvent('on' + etype));
+      } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+      }
+    }
+</script>
 <script type="text/javascript" src="lazyload-min.js"></script>
 <script type="text/javascript">
   LazyLoad.js(['slim.js','JSLitmus.js','tests.js'], function(){ $lim.init(); });

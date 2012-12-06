@@ -1,17 +1,12 @@
-var anchors = document.getElementsByTagName('li');
+var del = document.getElementById('delegate');
+$lim.event.delegate(del,'click','.item',function() {});
+var cli = document.getElementById('single');
+$lim.event.bind(cli,'click',function() {});
 
-JSLitmus.test("Nocache test",function() {
-  var alen = anchors.length - 1;
-  var handler = function(e) {};
-  do {
-    $peed.bindnocache(anchors[alen], 'click', handler);
-  } while (alen--)
+JSLitmus.test("Delegate bind",function() {
+  eventFire(document.querySelector('#delegate .item a'),'click');
 });
 
-JSLitmus.test("Cache test",function() {
-  var alen = anchors.length - 1;
-  var handler = function(e) {};
-  do {
-    $peed.bind(anchors[alen], 'click', handler);
-  } while (alen--)
+JSLitmus.test("Single bind",function() {
+  eventFire(document.querySelector('#single a'),'click');
 });

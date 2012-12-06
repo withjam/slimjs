@@ -17,22 +17,7 @@
     return ele
   };
   
-  // cache the result so we don't have to inspect every single time
-  var binder = (function() {
-    return Element.prototype.addEventListener || Element.prototype.attachEvent;
-  })();
-  
-  /**
-   *  Bind an event to an element
-   *  @param{Element} ele the Element to be bound to an event
-   *  @param{String} eventName the name of the event to bind
-   *  @param{function} handler the event handler function
-   **/
   var bind = function(ele,eventName,handler) {
-    binder.call(ele,eventName,handler);
-  };
-  
-  var bindNoCache = function(ele,eventName,handler) {
     if (ele.addEventListener) {
       ele.addEventListener(eventName,handler,false);
     } else {
@@ -44,7 +29,21 @@
    *  Event delegation using the Element as the root and matches any
    *  children
    **/
-  var delegate = function(eventName,selectorString,callback) {
+  var delegate = function(rootEle,eventName,selectorString,callback) {
+    bind(rootEle,eventName,function(e) {
+      var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
+      e = e || window.event;
+      var target = e.target || e.srcElement;
+      do {
+        if (matches.indexOf(target)) {
+          console.log('true');
+          callback(target);
+        } else {
+          console.log('false');
+        }
+        target = target.parentNode;
+      } while (target !== rootEle)
+    });
   }
   
   var core = {
@@ -58,15 +57,12 @@
       frag.appendChild(div);
       $doc.body.appendChild(frag);
       $outer = $doc.getElementById('outer');
-      bind($outer,'click',function(e) {
-        e = e || $win.event;
-        var target = e.target || e.srcElement;
-        
+      delegate($outer,'click','a',function(target) {
         console.log(target.tagName);
       });;
     },
     bind: bind,
-    bindnocache: bindNoCache
+    delegate: delegate
   };
   
   window.$peed = core;

@@ -1,4 +1,4 @@
-var anchors = document.querySelectorAll('li');
+var anchors = document.getElementsByTagName('li');
 
 JSLitmus.test("Nocache test",function() {
   var alen = anchors.length - 1;

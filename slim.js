@@ -34,7 +34,7 @@
    *  Event delegation using the Element as the root and matches any
    *  children
    **/
-  var delegate = function(rootEle,eventName,selectorString,callback) {
+  var delegate = function(rootEle,eventName,selectorString,handler) {
     bind(rootEle,eventName,function(e) {
       var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
       e = e || window.event;
@@ -42,7 +42,8 @@
       while (target !== rootEle) {
         console.log('delegate: '+target.tagName);
         if (matches.indexOf(target) > -1) {
-          callback(target,event);
+          e.actor = target;
+          handler(e);
           return;
         }
         target = target.parentNode;

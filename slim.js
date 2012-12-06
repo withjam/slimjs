@@ -49,6 +49,7 @@
         rootEle = handler.rootEle;
         selectorString = handler.selectorString;
         if (selectorString) {
+          console.log('using selector string: '+selectorString);
           matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
         }
         // work our way up the DOM until we reach the root element, if there is a selector stop if it matches the selector

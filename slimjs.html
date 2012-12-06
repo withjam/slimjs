@@ -6,18 +6,23 @@
 </head>
 <body>
 <div id="outer">
-  <ol class="items">
+  <ol class="items" id="delegate">
     <li class="item first"><a class="link"><span class="span">First</span></a></li>
     <li class="item second"><a class="link"><span class="span">Second</span></a></li>
     <li class="item third"><a class="link"><span class="span">Third</span></a></li>
   </ol>
+  <div id="bind"><p>Clicker</p></div>
 </div>
 <script type="text/javascript" src="lazyload-min.js"></script>
 <script type="text/javascript">
   LazyLoad.js("slim.js", function(){
-    var outer = document.getElementById('outer');
+    var outer = document.getElementById('delegate');
     $lim.event.delegate(outer,'click','.item a',function(e) {
       console.log(e.actor.className);
+    });
+    var clicker = document.getElementById('bind');
+    $lim.event.bind(clicker,'click',function(e) {
+      alert('click');
     });
   });
 </script>

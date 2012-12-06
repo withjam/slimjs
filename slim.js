@@ -6,7 +6,7 @@
   $lim.dom = {};
   $lim.event = {};
   
-  var debugging = 0;
+  var debugging = 1;
   
   debug = function(msg) {
     if (debugging && window.console && console.log) {
@@ -31,41 +31,45 @@
   };
   
   var docHandlers = {};
+  /**
+   *  Uber event delegation by binding ALL event handlers to the document itself.  Even single-element events will
+   *  instead bind to the document and delegation will invoke them.  All handler functions will receive the original
+   *  event object with an added property, actor, that holds the matching event element.
+   **/
   var handleDocEvent = function(e) {
     e = e || window.event;
     var target = e.target || e.srcElement || $doc;
     var handlers = docHandlers[e.type];
     if (handlers) {
-      var i = 0;
-      var len = handlers.length;
-      var handler = handlers[i];
-      var selectorString = null,rootEle = null;
-      while (handler) {
+      var i = handlers.length-1;
+      var match,matches,handler,selectorString = null,rootEle = null;
+      do {
+        debug('getting handler '+i);
+        handler = handlers[i];
         rootEle = handler.rootEle;
-        if (handler.hasOwnProperty('selectorString') ) {
-          selectorString = handler.selectorString;
-          debug('handleDocEvent, selectorString: '+selectorString);
-          var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
-          e = e || window.event;
-          var target = e.target || e.srcElement || rootEle;
-          while (target !== rootEle) {
-            debug('delegate: '+target.tagName);
-            if (matches.indexOf(target) > -1) {
-              e.actor = target;
-              debug('set actor: '+target.tagName);
-              handler(e);
-              break;
-            }
-            debug('checking target parent');
-            target = target.parentNode;
-          }
-        } else if (handler.rootEle && handler.rootEle === target) {
-          e.target = target;
-          handler(e);
-          return;
+        selectorString = handler.selectorString;
+        if (selectorString) {
+          matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
         }
-        handler = handlers[++i];
-      }
+        // work our way up the DOM until we reach the root element, if there is a selector stop if it matches the selector
+        while (!match && target !== rootEle && target !== $doc) {
+            if (matches) {
+              debug('delegate: '+target.tagName);
+              if (matches.indexOf(target) > -1) {
+                match = target;
+              }
+           }
+          debug('checking target parent');
+          target = target.parentNode;        
+        }
+        debug('docEvent match: '+match);
+        if (match || target === rootEle) {
+          e.actor = match || target;
+          handler(e);
+          break;
+        }
+        --i;
+      } while (i >= 0)
     }
   };
   // Bind ALL event handlers to the document, use event delegation from the document to minimize bound handlers
@@ -89,8 +93,6 @@
   };
   
   var bind = function(ele,eventType,handler) {
-    // TODO: use this to bind to the document
-    //addEvent(ele,eventName,handler);
     docBind(ele,eventType,handler);
   };
   
@@ -99,19 +101,6 @@
    *  children
    **/
   var delegate = function(rootEle,eventType,selectorString,callback) {
-    /*bind(rootEle,eventType,function(e) {
-      var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
-      e = e || window.event;
-      var target = e.target || e.srcElement || rootEle;
-      while (target !== rootEle) {
-        debug('delegate: '+target.tagName);
-        if (matches.indexOf(target) > -1) {
-          callback(target,event);
-          return;
-        }
-        target = target.parentNode;
-      }
-    });*/
     docBind(rootEle,eventType,callback,selectorString);
   }
   

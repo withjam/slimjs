@@ -30,11 +30,17 @@
    *  children
    **/
   var delegate = function(rootEle,eventName,selectorString,callback) {
-    console.log(rootEle);
     bind(rootEle,eventName,function(e) {
-      //var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
+      var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
       e = e || window.event;
       var target = e.target || e.srcElement;
+      do {
+        if (matches.indexOf(target) > -1) {
+          callback(target);
+          return;
+        }
+        target = target.parentNode;
+      } while (target !== rootEle);
     });
   }
   

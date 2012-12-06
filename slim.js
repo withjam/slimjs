@@ -6,6 +6,13 @@
   $lim.dom = {};
   $lim.event = {};
   
+  var debugging = 0;
+  var debug = function(msg) {
+    if (debugging && window.console) {
+      console.log(msg);
+    }
+  };
+  
   var createElement = function(tagname,opts) {
     var ele = $doc.createElement(tagname);
     for (var key in opts) {
@@ -40,7 +47,7 @@
       e = e || window.event;
       var target = e.target || e.srcElement || rootEle;
       while (target !== rootEle) {
-        console.log('delegate: '+target.tagName);
+        debug('delegate: '+target.tagName);
         if (matches.indexOf(target) > -1) {
           e.actor = target;
           handler(e);
@@ -51,6 +58,17 @@
     });
   }
   
+  $lim.core = {
+    debug: debug,
+    toggleDebug: function(flag) {
+      if (typeof flag !== 'undefined') {
+        debugging = flag;
+      } else {
+        debugging = !debugging;
+      }
+      return debugging;
+    }
+  };
   $lim.event = {
     bind: bind,
     delegate: delegate

@@ -32,7 +32,7 @@
   var delegate = function(rootEle,eventName,selectorString,callback) {
     console.log(rootEle);
     bind(rootEle,eventName,function(e) {
-      var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
+      //var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
       e = e || window.event;
       var target = e.target || e.srcElement;
     });

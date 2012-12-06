@@ -2,11 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>$peedlib JS</title>
+  <title>$peedlib Litmus Tests</title>
 </head>
 <body>
+<ol><li>First</li><li>Second</li><li>Third</li></ol>
 
-<script src="loader.js"></script>
-
+<script type="text/javascript" src="lazyload-min.js"></script>
+<script type="text/javascript">
+  LazyLoad.js(['speedlib.js','JSLitmus.js','tests.js'], function(){ $peed.init(); });
+</script>
 </body>
 </html>

@@ -14,7 +14,12 @@
 </div>
 <script type="text/javascript" src="lazyload-min.js"></script>
 <script type="text/javascript">
-  LazyLoad.js("slim.js", function(){ $lim.init(); });
+  LazyLoad.js("slim.js", function(){
+    var outer = document.getElementById('outer');
+    $lim.event.delegate(outer,'click','.item a',function(target) {
+      console.log(target.className);
+    });
+  });
 </script>
 </body>
 </html>

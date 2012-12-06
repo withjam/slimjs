@@ -1,5 +1,10 @@
 (function() {
-  var $outer,$doc = document,$win = window;
+  var $doc = document,$win = window;
+  
+  var $lim = {};
+  $lim.core = {};
+  $lim.dom = {};
+  $lim.event = {};
   
   var createElement = function(tagname,opts) {
     var ele = $doc.createElement(tagname);
@@ -33,27 +38,25 @@
     bind(rootEle,eventName,function(e) {
       var matches = Array.prototype.slice.call(rootEle.querySelectorAll(selectorString));
       e = e || window.event;
-      var target = e.target || e.srcElement;
-      do {
+      var target = e.target || e.srcElement || rootEle;
+      while (target !== rootEle) {
+        console.log('delegate: '+target.tagName);
         if (matches.indexOf(target) > -1) {
-          callback(target);
+          callback(target,event);
           return;
         }
         target = target.parentNode;
-      } while (target !== rootEle);
+      }
     });
   }
   
-  var core = {
-    init: function() {
-      $outer = document.getElementById('outer');
-      delegate($outer,'click','.item',function(target) {
-        console.log(target.className);
-      });;
-    },
+  $lim.event = {
     bind: bind,
     delegate: delegate
   };
+  $lim.dom = {
+    createElement: createElement
+  };
   
-  window.$lim = core;
+  window.$lim = $lim;
 })();

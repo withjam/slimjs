@@ -16,8 +16,8 @@
 <script type="text/javascript">
   LazyLoad.js("slim.js", function(){
     var outer = document.getElementById('outer');
-    $lim.event.delegate(outer,'click','.item a',function(target) {
-      console.log(target.className);
+    $lim.event.delegate(outer,'click','.item a',function(e) {
+      console.log(e.actor.className);
     });
   });
 </script>

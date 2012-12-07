@@ -3,14 +3,45 @@
   
   var $lim = {};
   $lim.core = {};
-  $lim.dom = {};
-  $lim.event = {};
   
-  var debugging = 0;
+  var debugging = 1;
   var debug = function(msg) {
     if (debugging && window.console) {
       console.log(msg);
     }
+  };
+  
+  $lim.dom = {};
+          
+  /**
+   *  Constructs an entire DOM tree based on the data provided.
+   *  @param{object|string} elements the dom data in JSON notation
+   *  @return documentFragment containing the elements created
+   **/
+  var construct = function(elements) {
+    var frag = $doc.createDocumentFragment();
+    if (typeof elements === 'string') {
+      var div = $doc.createElement('DIV');
+      div.innerHTML = elements;
+      var child = div.firstElementChild;
+      while (child) {
+        frag.appendChild(child);
+        child = div.firstElementChild;
+      }
+      delete div;
+    } else {
+      for (var tagname in elements) {
+        var data = elements.hasOwnProperty(tagname) && elements[tagname];
+        if (data) {
+          var ele = createElement(tagname,data);
+          if (data.hasOwnProperty('children')) {
+            ele.appendChild(construct(data.children).cloneNode(true));
+          }
+          frag.appendChild(ele);
+        }
+      }
+    }
+    return frag;
   };
   
   var createElement = function(tagname,opts) {
@@ -21,6 +52,8 @@
           case 'html':
             ele.innerHTML = opts[key];
             break;
+          case 'children':
+            break;
           default:
             ele.setAttribute(key,opts[key]);
         }
@@ -28,6 +61,8 @@
     }
     return ele
   };
+  
+  $lim.event = {};
   
   var bind = function(ele,eventName,handler) {
     if (ele.addEventListener) {
@@ -74,7 +109,8 @@
     delegate: delegate
   };
   $lim.dom = {
-    createElement: createElement
+    createElement: createElement,
+    construct: construct
   };
   
   window.$lim = $lim;

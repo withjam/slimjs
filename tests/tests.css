@@ -1,0 +1,7 @@
+BODY { padding: 0.5em; font-family: Verdana,Geneva,sans-serif; font-size: 14px; }
+
+A { color: blue; }
+
+H2 { font-size: 1.15em; }
+
+FIELDSET { width: 360px; margin: 1.25em 0; border-radius: 6px; border:solid 1px #999;}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>$limJS Event Binding Litmus Tests</title>
+  <link rel="stylesheet" href="tests.css"/>
+</head>
+<body>
+<header><a href="index.html">&laquo; Back to index</a></header>
+<div id="delegate">
+  <ol class="items">
+    <li class="item first"><a class="link"><span class="span">First</span></a></li>
+    <li class="item second"><a class="link"><span class="span">Second</span></a></li>
+    <li class="item third"><a class="link"><span class="span">Third</span></a></li>
+  </ol>
+</div>
+<div id="single">
+  <a class="link"><span>Clicker</span></a>
+</div>
+
+<script type="text/javascript">
+function eventFire(el, etype){
+      if (el.fireEvent) {
+        (el.fireEvent('on' + etype));
+      } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+      }
+    }
+</script>
+<script type="text/javascript" src="lazyload-min.js"></script>
+<script type="text/javascript">
+  LazyLoad.js(['../slim.js','JSLitmus.js'], function(){
+
+    var clicked = function(e) {
+      e = e || window.event;
+      var t = e.actor || e.target || e.srcElement;
+      t.firstElementChild.firstElementChild.innerHTML = 'Clicked Upon';
+    }
+    
+    var del = document.getElementById('delegate');
+    $lim.event.delegate(del,'click','.item',clicked);
+    var cli = document.querySelector('#single');
+    $lim.event.bind(cli,'click',clicked);
+    
+    JSLitmus.test("Delegate bind",function() {
+      eventFire(document.querySelector('#delegate .item a span'),'click');
+    });
+    
+    JSLitmus.test("Single bind",function() {
+      eventFire(document.querySelector('#single'),'click');
+    });
+  
+  });
+</script>
+</body>
+</html>

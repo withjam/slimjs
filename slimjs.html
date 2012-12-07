@@ -12,25 +12,26 @@
     <li class="item third"><a class="link"><span class="span">Third</span></a></li>
   </ol>
 </div>
+<script>window._slimdebug = true;</script>
 <script type="text/javascript" src="slim.js"></script>
 <script>
-    var outer = document.getElementById('outer');
-    $lim.event.delegate(outer,'click','.item',function(e) {
-      console.log(e.actor.className);
-    });
-    var domData = {
-      div: {
-        id: 'test1',
-        className: 'constructed',
-        children: {
-          p: {
-            className: 'para',
-            html: 'This was built by <strong>$limJS</strong>'
-          }
+  var outer = document.getElementById('outer');
+  $lim.event.delegate(outer,'click','.item',function(e) {
+    console.log(e.actor.className);
+  });
+  var domData = {
+    div: {
+      id: 'test1',
+      className: 'constructed',
+      children: {
+        p: {
+          className: 'para',
+          html: 'This was built by <strong>$limJS</strong>'
         }
       }
-    };
-    document.body.appendChild($lim.dom.construct(domData));
+    }
+  };
+  document.body.appendChild($lim.dom.construct(domData));
 </script>
 </body>
 </html>

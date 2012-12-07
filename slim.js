@@ -4,7 +4,7 @@
   var $lim = {};
   $lim.core = {};
   
-  var debugging = 0;
+  var debugging = window._slimdebug || 0;
   var debug = function(msg) {
     if (debugging && window.console) {
       console.log(msg);

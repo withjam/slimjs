@@ -12,9 +12,8 @@
     <li class="item third"><a class="link"><span class="span">Third</span></a></li>
   </ol>
 </div>
-<script type="text/javascript" src="lazyload-min.js"></script>
-<script type="text/javascript">
-  LazyLoad.js("slim.js", function(){
+<script type="text/javascript" src="slim.js"></script>
+<script>
     var outer = document.getElementById('outer');
     $lim.event.delegate(outer,'click','.item',function(e) {
       console.log(e.actor.className);
@@ -32,7 +31,6 @@
       }
     };
     document.body.appendChild($lim.dom.construct(domData));
-  });
 </script>
 </body>
 </html>

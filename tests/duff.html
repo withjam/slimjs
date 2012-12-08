@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>$limJS Duff Device Litmus Tests</title>
+  <link rel="stylesheet" href="tests.css"/>
+</head>
+<body>
+<header><a href="index.html">&laquo; Back to index</a></header>
+
+<div id="duffresult">
+
+</div>
+<div id="loopresult">
+
+</div>
+<script type="text/javascript" src="lazyload-min.js"></script>
+<script type="text/javascript">
+  LazyLoad.js(['../slim.js','JSLitmus.js'], function(){
+
+    var load = [];
+      for (var i=0;i < 5; i++) {
+        load.push(i);
+      }
+
+    
+    var duffr = document.getElementById('duffresult');
+    var loopr = document.getElementById('loopresult');
+    
+    JSLitmus.test("Duff Result",function() {
+      var total = 0;
+      var process = function(c) {
+        total += c;
+      }
+      $lim.util.duff(load,process);
+      duffr.innerHTML = total;
+    });
+    
+    JSLitmus.test("For loop",function() {
+      var total = 0;
+      var process = function(c) {
+        total += c;
+      }
+      var len = load.length;
+      for (var i=0;i < len;i++) {
+        process(load[i]);
+      }
+      loopr.innerHTML = total;
+    });
+  
+  });
+</script>
+</body>
+</html>

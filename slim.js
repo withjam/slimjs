@@ -104,6 +104,8 @@
       return debugging;
     }
   };
+  $lim.util = {
+  };
   $lim.event = {
     bind: bind,
     delegate: delegate

@@ -1,0 +1,5 @@
+{
+  id: 'slimjs-dev',
+  mode: 'ADVANCED',
+  inputs: 'src/slim.js'
+}

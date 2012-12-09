@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>$lim JS with Plovr</title>
+</head>
+<body>
+<div id="outer">
+  <ol class="items">
+    <li class="item first"><a class="link"><span class="span">First</span></a></li>
+    <li class="item second"><a class="link"><span class="span">Second</span></a></li>
+    <li class="item third"><a class="link"><span class="span">Third</span></a></li>
+  </ol>
+</div>
+<script>window._slimdebug = true;</script>
+<script type="text/javascript" src="http://localhost:9810/compile?id=slimjs-dev"></script>
+<script>
+  var outer = document.getElementById('outer');
+  $lim.event.delegate(outer,'click','.item',function(e) {
+    console.log(e.actor.className);
+  });
+  var domData = {
+    div: {
+      id: 'test1',
+      className: 'constructed',
+      children: ['<strong>$limJS</strong>',{
+        p: {
+          className: 'para',
+          html: 'This was built by <strong>$limJS</strong>'
+        }
+      }]
+    }
+  };
+  document.body.appendChild($lim.dom.construct(domData));
+</script>
+</body>
+</html>

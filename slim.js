@@ -68,10 +68,10 @@
       }
       delete div;
     } else if (toString.call(elements) === '[object Array]') {
-      var ele = elements.shift();
-      while (ele) {
+      var len = elements.length
+      for (var i=0;i < len;i++) {
+        var ele = elements[i];
         frag.appendChild(construct(ele));
-        ele = elements.shift();
       }
     } else {
       for (var tagname in elements) {

@@ -24,21 +24,19 @@
       div: {
         className: 'test',
         children: [{
+          strong: { 
+            html: 'title' 
+          }
+        },{
           p: {
-            children: {
-              strong: {
-                className: 'title',
-                html: 'Title'
-              }
-            }
-          } },{
-          p: {
-            className: 'body',
-            html: 'Body Text'
+            html: 'Body'
           }
         }]
       }
     };
+    
+      objDom.appendChild($lim.dom.construct(domObj));
+            objDom.appendChild($lim.dom.construct(domObj));
     
     JSLitmus.test("String insertion",function() {
       stringDom.innerHTML = '';

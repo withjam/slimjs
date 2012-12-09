@@ -23,7 +23,11 @@ goog.exportSymbol('$lim.core.toggleDebug', function(flag) {
   
 goog.provide('$lim.util');
   
-  // custom trim function that will be used if a faster native trim is not available
+  /**
+    * Trim function idea inspired by High Powered JavaScript.  Used based on tests from http://jsperf.com/mega-trim-test/22
+    * @param {string} str the string to trim
+    * @return {string} the trimmed version of the string
+  **/
   var _trim = function(str) {
       var c;
       for (var i = 0; i < str.length; i++) {
@@ -46,11 +50,7 @@ goog.provide('$lim.util');
       }
       return str.substring(i, j + 1);
       };
-  /**
-    * Trim function idea inspired by High Powered JavaScript.  Used based on tests from http://jsperf.com/mega-trim-test/22
-    * @param {string} str the string to trim
-    * @return {string} the trimmed version of the string
-  **/
+
 goog.exportSymbol('$lim.util.trim', (!String.prototype.trim || "\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF".trim() || navigator.userAgent.toString().toLowerCase().indexOf("chrome") != -1) ?
     $lim.util.trim = _trim : function(str) { return str.trim(); }); // use native trim when available except on chrome - Consider replacing String.prototype.trim since the wrapper function is slightly slower than using the prototype function (I currently hesitate to modify the prototype of a base object)
 
@@ -136,7 +136,7 @@ goog.provide('$lim.event');
       while (target !== rootEle) {
         debug('delegate: '+target.tagName);
         if (matches.indexOf(target) > -1) {
-          e.actor = target;
+          e['actor'] = target;
           handler(e);
           return;
         }

@@ -23,15 +23,30 @@
     div: {
       id: 'test1',
       className: 'constructed',
-      children: {
+      children: ['<strong>$limJS</strong>',{
         p: {
           className: 'para',
           html: 'This was built by <strong>$limJS</strong>'
         }
-      }
+      }]
     }
   };
+    var domObj = {
+      div: {
+        className: 'test',
+        children: [{
+          strong: { 
+            html: 'title' 
+          }
+        },{
+          p: {
+            html: 'Body'
+          }
+        }]
+      }
+    };
   document.body.appendChild($lim.dom.construct(domData));
+  document.body.appendChild($lim.dom.construct(domObj));
 </script>
 </body>
 </html>

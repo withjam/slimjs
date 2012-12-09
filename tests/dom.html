@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>$limJS DOM Injection Litmus Tests</title>
+  <link rel="stylesheet" href="tests.css"/>
+</head>
+<body>
+<header><a href="index.html">&laquo; Back to index</a></header>
+<div id="stringDom"></div>
+<div id="objDom"></div>
+<div id="innerH"></div>
+
+<script type="text/javascript" src="lazyload-min.js"></script>
+<script type="text/javascript">
+  LazyLoad.js(['../slim.js','JSLitmus.js'], function(){
+
+    var stringDom = document.getElementById('stringDom');
+    var objDom = document.getElementById('objDom');
+    var innerDom = document.getElementById('innerH');
+    
+    var domString = '<div class="test"><p><strong class="title">Title</strong></p><p class="body">Body text</p></div>';
+    var domObj = {
+      div: {
+        className: 'test',
+        children: [{
+          p: {
+            children: {
+              strong: {
+                className: 'title',
+                html: 'Title'
+              }
+            }
+          } },{
+          p: {
+            className: 'body',
+            html: 'Body Text'
+          }
+        }]
+      }
+    };
+    
+    JSLitmus.test("String insertion",function() {
+      stringDom.innerHTML = '';
+      stringDom.appendChild($lim.dom.construct(domString));
+    });
+    
+    JSLitmus.test("Object insertion",function() {
+      objDom.innerHTML = '';
+      objDom.appendChild($lim.dom.construct(domObj));
+    });
+    
+    JSLitmus.test("InnerHTML insertion",function() {
+      innerDom.innerHTML = domString;
+    });
+    
+  
+  });
+</script>
+</body>
+</html>

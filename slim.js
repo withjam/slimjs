@@ -57,6 +57,7 @@
    **/
   var construct = function(elements) {
     var frag = $doc.createDocumentFragment();
+    var eleType = toString.call(elements);
     if (typeof elements === 'string') {
       var div = $doc.createElement('DIV');
       div.innerHTML = elements;
@@ -66,14 +67,17 @@
         child = div.firstElementChild;
       }
       delete div;
+    } else if (toString.call(elements) === '[object Array]') {
+      var ele = elements.shift();
+      while (ele) {
+        frag.appendChild(construct(ele));
+        ele = elements.shift();
+      }
     } else {
       for (var tagname in elements) {
         var data = elements.hasOwnProperty(tagname) && elements[tagname];
         if (data) {
           var ele = createElement(tagname,data);
-          if (data.hasOwnProperty('children')) {
-            ele.appendChild(construct(data.children).cloneNode(true));
-          }
           frag.appendChild(ele);
         }
       }
@@ -90,6 +94,7 @@
             ele.innerHTML = opts[key];
             break;
           case 'children':
+            ele.appendChild(construct(opts[key]));
             break;
           default:
             ele.setAttribute(key,opts[key]);

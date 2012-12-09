@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>$limJS String Trimming Litmus Tests</title>
+  <link rel="stylesheet" href="tests.css"/>
+</head>
+<body>
+<header><a href="index.html">&laquo; Back to index</a></header>
+<div id="trimlensm"></div>
+<div id="trimlenlg"></div>
+<div id="nativelensm"></div>
+<div id="nativelenlg"></div>
+
+<script type="text/javascript" src="lazyload-min.js"></script>
+<script type="text/javascript">
+  LazyLoad.js(['../slim.js','JSLitmus.js'], function(){
+
+    var base = "thirteen";
+    var sm = "     " + base + "     ";  // 5 spaces at the end
+    var lg = base;
+    for (var i=0;i < 2000;i++) {
+      lg = " " + lg + " ";
+    }
+    
+    var t1 = document.getElementById('trimlensm');
+    var t2 = document.getElementById('trimlenlg');
+    var t3 = document.getElementById('nativelensm');
+    var t4 = document.getElementById('nativelenlg');
+    JSLitmus.test("5 spaces",function() {
+      var trimmed = $lim.util.trim(sm);
+      //t1.innerHTML = trimmed.length;
+    });
+    
+    JSLitmus.test("2000 spaces",function() {
+      var trimmed = $lim.util.trim(lg);
+      //t2.innerHTML = trimmed.length
+    });
+
+    if (String.prototype.trim) {
+      JSLitmus.test("Native 5",function() {
+        var totrim = sm;
+        var trimmed = totrim.trim();
+        //t3.innerHTML = trimmed.length
+      });
+      
+      JSLitmus.test("Native 2000",function() {
+        var totrim = lg;
+        var trimmed = totrim.trim();      
+        //t4.innerHTML = trimmed.length;
+      });
+    }
+    
+    
+  
+  });
+</script>
+</body>
+</html>

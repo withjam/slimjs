@@ -1,5 +1,13 @@
 {
   id: 'slimjs-dev',
   mode: 'ADVANCED',
-  inputs: 'src/slim.js'
+  inputs: 'src/slim.js',
+  checks: {
+    checkTypes: 'ERROR',
+    checkVars: 'WARNING',
+    invalidCasts: 'ERROR',
+    missingProperties: 'WARNING',
+    nonStandardJsDocs: 'WARNING',
+    undefinedVars: 'WARNING'
+  }
 }

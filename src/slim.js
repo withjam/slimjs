@@ -1,17 +1,32 @@
 goog.provide('$lim');
 
-  var $doc = document,$win = window;
+  /** @type {Document} **/
+  var $doc = document;
+  /** @type {Window} **/
+  var $win = window;
   
 goog.provide('$lim.core');
   
-  var debugging = window._slimdebug || 0;
+  /** @type {boolean} **/
+  var debugging = $win['_slimdebug'] || 0;
+  
+  /**
+    * Logs a message to the console if console and debugging is enabled.  Note that console logging hinders performance.
+    * @param {string} msg the message to log
+  **/
   var debug = function(msg) {
-    if (debugging && window.console) {
-      console.log(msg);
+    if (debugging && window['console']) {
+      window['console'].log(msg);
     }
   };
   
 goog.exportSymbol('$lim.core.debug',debug);
+
+  /**
+    * Switches or sets the debugging flag.
+    * @param {boolean=} flag to specifically set the debugging flag, otherwise it will toggle the value
+    * @return {boolean} the value of the debugging flag after toggling
+  **/
 goog.exportSymbol('$lim.core.toggleDebug', function(flag) {
       if (typeof flag !== 'undefined') {
         debugging = flag;
@@ -59,12 +74,11 @@ goog.provide('$lim.dom');
           
   /**
    *  Constructs an entire DOM tree based on the data provided.
-   *  @param{object|string} elements the dom data in JSON notation
-   *  @return documentFragment containing the elements created
+   *  @param{Object|string} elements the dom data in JSON notation
+   *  @return {DocumentFragment} documentFragment containing the elements created
    **/
   var construct = function(elements) {
     var frag = $doc.createDocumentFragment();
-    var eleType = toString.call(elements);
     if (typeof elements === 'string') {
       var div = $doc.createElement('DIV');
       div.innerHTML = elements;
@@ -74,7 +88,7 @@ goog.provide('$lim.dom');
         child = div.firstElementChild;
       }
       delete div;
-    } else if (toString.call(elements) === '[object Array]') {
+    } else if (Object['toString'].call(elements) === '[object Array]') {
       var len = elements.length
       for (var i=0;i < len;i++) {
         var ele = elements[i];
@@ -92,6 +106,12 @@ goog.provide('$lim.dom');
     return frag;
   };
   
+  /**
+   *  Creates a single HTML element based on the tagname and optional options.
+   *  @param {string} tagname the name of the HTML tag to create
+   *  @param {Object=} opts hash of additional properties to set on the element, special handling for 'children' as a property
+   *  @return {Element} the HTML element that was created
+   **/
   var createElement = function(tagname,opts) {
     var ele = $doc.createElement(tagname);
     for (var key in opts) {
@@ -116,6 +136,12 @@ goog.exportSymbol('$lim.dom.construct',construct);
   
 goog.provide('$lim.event');
   
+  /**
+   *  Binds an event to a given element
+   *  @param {Element} ele an HTML element to which an event will be bound
+   *  @param {string} eventName the name of the event to bind
+   *  @param {Function} handler the handler that should be called when the event fires
+   **/
   var bind = function(ele,eventName,handler) {
     if (ele.addEventListener) {
       ele.addEventListener(eventName,handler,false);
@@ -127,6 +153,10 @@ goog.provide('$lim.event');
   /**
    *  Event delegation using the Element as the root and matches any
    *  children
+   *  @param {Element} rootEle the root element that should be using event delegation
+   *  @param {string} eventName the name of the event to delegate
+   *  @param {string} selectorString the CSS selector string used to match delegated elements that receive an event
+   *  @param {Function} handler the handler function that will be invoked on a matching delegate event.  The Event object passed to the handler will contain an 'actor' proprety that is the matched element
    **/
   var delegate = function(rootEle,eventName,selectorString,handler) {
     bind(rootEle,eventName,function(e) {

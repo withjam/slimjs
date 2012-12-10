@@ -74,7 +74,7 @@ goog.provide('$lim.dom');
           
   /**
    *  Constructs an entire DOM tree based on the data provided.
-   *  @param{Object|string} elements the dom data in JSON notation
+   *  @param{Object|string} elements the dom data in JSON notation or an HTML string
    *  @return {DocumentFragment} documentFragment containing the elements created
    **/
   var construct = function(elements) {
@@ -164,7 +164,7 @@ goog.provide('$lim.event');
       e = e || window.event;
       var target = e.target || e.srcElement || rootEle;
       while (target !== rootEle) {
-        debug('delegate: '+target.tagName);
+        debug('delegate: '+target.nodeName);
         if (matches.indexOf(target) > -1) {
           e['actor'] = target;
           handler(e);

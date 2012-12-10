@@ -13,3 +13,7 @@
 <h2>Assumptions</h2>
 
 <p>$limJS makes certain assumptions in its approach.  The most major assumption is that document.querySelector and document.querySelectorAll will be present.  This may eliminate it from use when a broad audience is supported but allows it to run quickly on modern browsers, a controlled audience, or in mobile development.  Other assumptions may be made in the performance tests and/or code and will be reflected in this section if they are added in the future.</p>
+
+<h2>Dependencies</h2>
+
+<p>$limJS itself currently depends on Google Closure since it is designed for its compiler.  The internal tests use JSLitmus for running performance tests.  The test pages also use LazyLoad.js to ensure that JSLitmus and $limJS download and execute before any $lim tests are performed.</p>

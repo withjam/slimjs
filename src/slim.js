@@ -88,7 +88,7 @@ goog.provide('$lim.dom');
         child = div.firstElementChild;
       }
       delete div;
-    } else if (Object['toString'].call(elements) === '[object Array]') {
+    } else if ($win['toString'].call(elements) === '[object Array]') {
       var len = elements.length
       for (var i=0;i < len;i++) {
         var ele = elements[i];
